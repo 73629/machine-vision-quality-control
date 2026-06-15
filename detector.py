@@ -20,86 +20,81 @@ def generate_good_part():
 # créon maitenant notre pièce avec des défauts
 def generate_defective_part():
     """Génère une image d'une pièce avec défauts (rayures et tache)"""
-    # Copions la pièce sans défaut pour lui ajouter des défauts
     img = generate_good_part().copy()
-    # On ajoute une rayure sous forme de ligne, qui commence à la position (100,150) et finit à (300,250). Elle est plus foncé que
-    # que le disque (30) et est remplie (-1)
-    cv2.line(img, (100, 150), (300, 250), (30, 30, 30), 4)
-    # un ajoute un cercle, représentant une tache. Elle est située à (280,140), a un rayon de 20, est gris foncé (40)
-    # et est remplie (-1)
+    
+    # Rayure en deux segments qui s'arrêtent aux bords du trou (r=40)
+    # Segment gauche : de x=100 jusqu'au bord gauche du trou
+    cv2.line(img, (100, 150), (163, 210), (30, 30, 30), 4)
+    # Segment droit : du bord droit du trou jusqu'à x=300
+    cv2.line(img, (237, 230), (300, 260), (30, 30, 30), 4)
+    
+    # Tache
     cv2.circle(img, (280, 140), 20, (40, 40, 40), -1)
-    # On ajoute une éllipse, qui représente un bout de la pièce manquante. Le (200,200,200) est important, car 
-    # il donne à l'éllipse la même couleure que le fond de l'image, créant l'illusion de brisure
+    
+    # Ébréchure sur le bord
     cv2.ellipse(img, (200, 80), (25, 15), 45, 0, 180, (200, 200, 200), -1)
+    
     return img
 
 
 def detect_defects(img):
-    """
-    Détecte les défauts sur une pièce industrielle.
-    Retourne : (image annotée, liste de défauts détectés)
-    """
     defects = []
     annotated = img.copy()
 
-    # l'image en couleur (BGR). On la met en différents tons de gris
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     # --- Détection de la pièce principale ---
-    # on floue légèrement l'image en appliquant une gaussienne pour élimier le bruit, donc ici les petits
-    # détails inutiles. "gray" indique que l'image d'origine est en grayscale. (9,9) est la dimension matricielle
-    # du floue. "2" indique l'intensité du floue 
     blurred = cv2.GaussianBlur(gray, (9, 9), 2)
-
-    # Comme notre pièce est composé de deux cercles, on utilise la fonction HoughCircles, qui détecte les formes
-    # circulaires dans une image grayscale. "dp=1.2" indique la résolution de la recherche sera un peu plus basse que
-    # la vrai résolution (1), mais ca rend le calcul plus rapide.
-    # "miniDist=100" indique qu'il y a au moins 100 pixels de différence entre chaque cercle
-    # "param1" indique la valeur du contraste nécéssaire pour qu'un pixel soit considéré comme un bord. On lui donne une valeur
-    # de 50, car tout les bords sont bien définit dans notre image.
-    # "param2" indique le seuil de certitude pour qu'une forme soit considéré comme un cercle.  "param2=30" indique
-    # que 30 pixels de bords soient d'accord pour être considéré comme faisant partit d'un cercle.
-    # minRadius et maxRadius indiquent l'intervalle de valeurs possibles pour les rayons des cercles qu'on veut détecter
     circles = cv2.HoughCircles(
         blurred, cv2.HOUGH_GRADIENT, dp=1.2,
         minDist=100, param1=50, param2=30,
         minRadius=80, maxRadius=150
     )
 
-    # Message si HoughCircles ne trouve pas de cercle
     if circles is None:
-        defects.append("ERREUR : Pièce non détectée")
+        defects.append("ERREUR: Piece non detectee")
         return annotated, defects
 
-    # Cercle principal détecté
     x, y, r = map(int, circles[0][0])
     cv2.circle(annotated, (x, y), r, (0, 255, 0), 2)
     cv2.circle(annotated, (x, y), 3, (0, 255, 0), -1)
 
-    # --- Détection des défauts par analyse de texture ---
-    # Masque de la pièce seulement
+    # Masque de la pièce seulement (sans le trou central)
     mask = np.zeros_like(gray)
     cv2.circle(mask, (x, y), r - 5, 255, -1)
-    cv2.circle(mask, (x, y), 45, 0, -1)  # Exclure le trou central
+    cv2.circle(mask, (x, y), 45, 0, -1)
 
     piece_region = cv2.bitwise_and(gray, gray, mask=mask)
-
-    # Seuillage pour trouver les zones anormalement sombres (défauts)
     mean_val = cv2.mean(piece_region, mask=mask)[0]
-    _, thresh = cv2.threshold(
+
+    # --- Détection zones SOMBRES (rayures, taches) ---
+    _, thresh_dark = cv2.threshold(
         piece_region, mean_val * 0.75, 255, cv2.THRESH_BINARY_INV
     )
-    thresh = cv2.bitwise_and(thresh, thresh, mask=mask)
+    thresh_dark = cv2.bitwise_and(thresh_dark, thresh_dark, mask=mask)
 
-    # Trouver les contours des défauts
+    # --- Détection zones CLAIRES (brisures, éclats) ---
+    _, thresh_light = cv2.threshold(
+        piece_region, mean_val * 1.15, 255, cv2.THRESH_BINARY
+    )
+    thresh_light = cv2.bitwise_and(thresh_light, thresh_light, mask=mask)
+
+    # Combiner les deux
+    thresh_combined = cv2.bitwise_or(thresh_dark, thresh_light)
+
+    # Dilatation plus petite pour fusionner sans effacer
+    kernel_merge = np.ones((8, 8), np.uint8)
+    thresh_combined = cv2.dilate(thresh_combined, kernel_merge, iterations=2)
+    thresh_combined = cv2.erode(thresh_combined, kernel_merge, iterations=1)
+
     contours, _ = cv2.findContours(
-        thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+        thresh_combined, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
     )
 
     defect_count = 0
     for cnt in contours:
         area = cv2.contourArea(cnt)
-        if area > 150:  # Ignorer le bruit
+        if area > 100:
             defect_count += 1
             x_d, y_d, w_d, h_d = cv2.boundingRect(cnt)
             cv2.rectangle(annotated, (x_d, y_d),
@@ -109,8 +104,8 @@ def detect_defects(img):
                        0.5, (0, 0, 255), 1)
 
     if defect_count > 0:
-        defects.append(f"{defect_count} défaut(s) détecté(s)")
+        defects.append(f"{defect_count} defaut(s) detecte(s)")
     else:
-        defects.append("Aucun défaut détecté")
+        defects.append("Aucun defaut detecte")
 
     return annotated, defects

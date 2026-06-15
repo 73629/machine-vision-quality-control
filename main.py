@@ -7,22 +7,23 @@ def analyze_part(img, label):
     """Analyse une pièce et retourne l'image annotée avec résultats"""
     annotated, defects = detect_defects(img)
 
-    # Afficher le verdict
-    verdict = "REJETÉE" if any("défaut" in d for d in defects) else "ACCEPTÉE"
-    color = (0, 0, 255) if verdict == "REJETÉE" else (0, 255, 0)
+    verdict = "REJETEE" if any("defaut(s)" in d for d in defects) else "ACCEPTEE"
+    
+    # Couleurs distinctes et lisibles
+    color_verdict = (0, 180, 0) if verdict == "ACCEPTEE" else (0, 0, 255)  # Vert foncé ou Rouge
+    color_details = (0, 120, 0) if verdict == "ACCEPTEE" else (0, 0, 200)  # Vert foncé ou Rouge foncé
 
     cv2.putText(annotated, f"{label}: {verdict}",
                 (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
-                0.8, color, 2)
+                0.8, color_verdict, 2)
 
     for i, defect in enumerate(defects):
         cv2.putText(annotated, defect,
                     (10, 60 + i * 25),
                     cv2.FONT_HERSHEY_SIMPLEX,
-                    0.55, color, 1)
+                    0.55, color_details, 1)
 
     return annotated, verdict
-
 # === PROGRAMME PRINCIPAL ===
 print("=== Système de contrôle qualité par vision machine ===\n")
 

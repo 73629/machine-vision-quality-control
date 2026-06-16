@@ -6,12 +6,12 @@ from detector import generate_good_part, generate_defective_part, detect_defects
 def analyze_part(img, label):
     """Analyse une pièce et retourne l'image annotée avec résultats"""
     annotated, defects = detect_defects(img)
-
+    # on rejette si le détecteur trouve des défauts
     verdict = "REJETEE" if any("defaut(s)" in d for d in defects) else "ACCEPTEE"
     
-    # Couleurs distinctes et lisibles
-    color_verdict = (0, 180, 0) if verdict == "ACCEPTEE" else (0, 0, 255)  # Vert foncé ou Rouge
-    color_details = (0, 120, 0) if verdict == "ACCEPTEE" else (0, 0, 200)  # Vert foncé ou Rouge foncé
+    # Couleurs des textes
+    color_verdict = (0, 180, 0) if verdict == "ACCEPTEE" else (0, 0, 255)  
+    color_details = (0, 120, 0) if verdict == "ACCEPTEE" else (0, 0, 200)  
 
     cv2.putText(annotated, f"{label}: {verdict}",
                 (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
@@ -27,25 +27,26 @@ def analyze_part(img, label):
 # === PROGRAMME PRINCIPAL ===
 print("=== Système de contrôle qualité par vision machine ===\n")
 
-# Générer les pièces
+# On génère les pièces
 good = generate_good_part()
 defective = generate_defective_part()
 
-# Sauvegarder les images originales
+# On sauvegarde les images originales
 cv2.imwrite("images/good_part.png", good)
 cv2.imwrite("images/defective_part.png", defective)
 
-# Analyser les deux pièces
+# On analyse les deux pièces
 result_good, verdict_good = analyze_part(good, "Piece 1")
 result_defective, verdict_defective = analyze_part(defective, "Piece 2")
 
-# Sauvegarder les résultats
+# On sauvegarde les résultats
 cv2.imwrite("images/result_good.png", result_good)
 cv2.imwrite("images/result_defective.png", result_defective)
 
-# Affichage matplotlib
+# On crée l'affichage matplotlib
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 fig.suptitle("Système de contrôle qualité par vision machine", fontsize=14)
+
 
 axes[0][0].imshow(cv2.cvtColor(good, cv2.COLOR_BGR2RGB))
 axes[0][0].set_title("Pièce 1 – Originale")

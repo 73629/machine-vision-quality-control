@@ -24,6 +24,21 @@ des algorithmes de traitement d'image pour identifier automatiquement les anomal
 - NumPy — manipulation de matrices
 - Matplotlib — visualisation des résultats
 
+## Fonctions principales OpenCV utilisées
+
+### Flouter l'image
+
+Pour mettre un flou gaussien sur l'image, on utilise :
+$$GaussianBlur(src, dst, ksize, sigmaX)$$
+
+**Avec :**
+* $src$ : L'image d'entré
+* $dst$ : L'image de sortie
+* $ksize$ : La dimension de la matrice kernel qui floue l'image
+* $sigmaX$ : L'écart-type en x de la gaussienne
+
+
+
 ## Installation
 
 ```bash

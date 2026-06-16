@@ -1,20 +1,21 @@
 # Machine Vision Quality Control Simulator
 
+Par Nicolas Desnoyers
+
 Simulateur de contrôle qualité par vision machine, développé en Python avec OpenCV.
 Conçu pour démontrer les principes de base de l'inspection automatisée de pièces industrielles.
 
 ## Description
 
 Ce projet simule un système de vision machine capable de détecter des défauts sur des
-pièces circulaires (type rondelle ou CD) sur une ligne de production. Le système génère
-des pièces de test synthétiques et applique des algorithmes de traitement d'image pour
-identifier automatiquement les anomalies.
+CD sur une ligne de production. Le système génère des pièces de test synthétiques et applique 
+des algorithmes de traitement d'image pour identifier automatiquement les anomalies.
 
 ## Défauts détectés
 
-- Rayures (zones anormalement sombres)
-- Taches (contamination de surface)
-- Ébréchures (zones anormalement claires sur le bord)
+- des rayures (les deux lignes noires)
+- Une tache (le cercle noir)
+- un bout brisé (la zone claire sur le bord)
 
 ## Technologies utilisées
 

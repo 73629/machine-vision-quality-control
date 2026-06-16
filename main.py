@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from detector import generate_good_part, generate_defective_part, detect_defects
 
 def analyze_part(img, label):
-    """Analyse une pièce et retourne l'image annotée avec résultats"""
     annotated, defects = detect_defects(img)
     # on rejette si le détecteur trouve des défauts
     verdict = "REJETEE" if any("defaut(s)" in d for d in defects) else "ACCEPTEE"
@@ -24,7 +23,7 @@ def analyze_part(img, label):
                     0.55, color_details, 1)
 
     return annotated, verdict
-# === PROGRAMME PRINCIPAL ===
+
 print("=== Système de contrôle qualité par vision machine ===\n")
 
 # On génère les pièces

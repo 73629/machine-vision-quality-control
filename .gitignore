@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Images générées automatiquement
+images/good_part.png
+images/defective_part.png
+images/result_good.png
+images/result_defective.png
+
+# Garder le résultat final pour le README
+!images/quality_control_results.png

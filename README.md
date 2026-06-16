@@ -41,7 +41,7 @@ défauts), analyse chacune et sauvegarde les résultats dans le dossier `images/
 
 ## Algorithme de détection
 
-1. Détection de la pièce principale par transformée de Hough (cercles)
+1. Détection de la pièce principale par la fonction HoughCircles
 2. Création d'un masque excluant le trou central et le fond
 3. Calcul de la valeur moyenne de gris sur la surface de la pièce
 4. Seuillage adaptatif pour détecter les zones anormalement sombres (rayures, taches)

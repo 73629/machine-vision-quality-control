@@ -54,8 +54,10 @@ $$HoughCircles(image, method, dp, minDist, param1, param2, minRadius, maxRadius)
 ### Binariser l'image
 
 Pour binariser l'image selon un seuil (segmentation), on utilise :
-$$threshold(src, dst, thresh, maxval, type)$$
 
+```python
+threshold(src, dst, thresh, maxval, type)
+```
 **Avec :**
 * $src$ : L'image d'entrée en niveaux de gris
 * $dst$ : L'image binarisée de sortie

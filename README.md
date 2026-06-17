@@ -29,7 +29,10 @@ des algorithmes de traitement d'image pour identifier automatiquement les anomal
 ### Mettre un flou sur l'image
 
 Pour mettre un flou gaussien sur l'image, on utilise :
-$$GaussianBlur(src, dst, ksize, sigmaX)$$
+
+```python
+GaussianBlur(src, dst, ksize, sigmaX)
+```
 
 **Avec :**
 * $src$ : L'image d'entré
@@ -40,7 +43,10 @@ $$GaussianBlur(src, dst, ksize, sigmaX)$$
 ### Détecter des cercles
 
 Pour détecter les cercles dans l'image (transformée de Hough), on utilise :
-$$HoughCircles(image, method, dp, minDist, param1, param2, minRadius, maxRadius)$$
+
+```python
+HoughCircles(image, method, dp, minDist, param1, param2, minRadius, maxRadius)
+```
 
 **Avec :**
 * $image$ : L'image d'entrée en niveaux de gris
@@ -78,7 +84,9 @@ bitwise_and(src1, src2, mask)
 ### Dilatation et érosion
 
 Pour combler les discontinuités d'une forme détectée (dilatation morphologique), on utilise :
-$$dilate(src, dst, kernel, iterations)$$
+```python
+dilate(src, dst, kernel, iterations)
+```
 
 **Avec :**
 * $src$ : L'image binaire d'entrée
@@ -87,8 +95,10 @@ $$dilate(src, dst, kernel, iterations)$$
 * $iterations$ : Le nombre de fois où l'opération est appliquée
 
 Pour réduire la dilatation excédentaire (érosion morphologique), on utilise :
-$$erode(src, dst, kernel, iterations)$$
 
+```python
+erode(src, dst, kernel, iterations)
+```
 **Avec :**
 * $src$ : L'image dilatée d'entrée
 * $dst$ : L'image érodée de sortie
@@ -98,7 +108,10 @@ $$erode(src, dst, kernel, iterations)$$
 ### Extraire les contours 
 
 Pour extraire les contours des défauts détectés, on utilise :
-$$findContours(image, contours, hierarchy, mode, method)$$
+
+```python
+findContours(image, contours, hierarchy, mode, method)
+```
 
 **Avec :**
 * $image$ : L'image binaire d'entrée

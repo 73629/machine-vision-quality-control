@@ -35,10 +35,10 @@ GaussianBlur(src, dst, ksize, sigmaX)
 ```
 
 **Avec :**
-* $src$ : L'image d'entré
-* $dst$ : L'image de sortie
-* $ksize$ : La dimension de la matrice kernel qui floue l'image
-* $sigmaX$ : L'écart-type en x de la gaussienne
+* src : L'image d'entré
+* dst : L'image de sortie
+* ksize : La dimension de la matrice kernel qui floue l'image
+* sigmaX : L'écart-type en x de la gaussienne
 
 ### Détecter des cercles
 
@@ -49,13 +49,13 @@ HoughCircles(image, method, dp, minDist, param1, param2, minRadius, maxRadius)
 ```
 
 **Avec :**
-* $image$ : L'image d'entrée en niveaux de gris
-* $method$ : La méthode de détection (HOUGH_GRADIENT)
-* $dp$ : Le ratio de résolution entre l'image et l'accumulateur de Hough
-* $minDist$ : La distance minimale entre les centres de cercles détectés
-* $param1$ : Le seuil supérieur pour la détection des contours (Canny)
-* $param2$ : Le seuil d'accumulation pour la détection des centres de cercles
-* $minRadius$, $maxRadius$ : Les rayons minimal et maximal des cercles à détecter
+* image : L'image d'entrée en niveaux de gris
+* method : La méthode de détection (HOUGH_GRADIENT)
+* dp : Le ratio de résolution entre l'image et l'accumulateur de Hough
+* minDist : La distance minimale entre les centres de cercles détectés
+* param1 : Le seuil supérieur pour la détection des contours (Canny)
+* param2 : Le seuil d'accumulation pour la détection des centres de cercles
+* minRadius, maxRadius : Les rayons minimal et maximal des cercles à détecter
 
 ### Binariser l'image
 
@@ -65,11 +65,11 @@ Pour binariser l'image selon un seuil (segmentation), on utilise :
 threshold(src, dst, thresh, maxval, type)
 ```
 **Avec :**
-* $src$ : L'image d'entrée en niveaux de gris
-* $dst$ : L'image binarisée de sortie
-* $thresh$ : La valeur de seuil
-* $maxval$ : La valeur assignée aux pixels dépassant le seuil
-* $type$ : Le type de seuillage (THRESH_BINARY ou THRESH_BINARY_INV)
+* src : L'image d'entrée en niveaux de gris
+* dst : L'image binarisée de sortie
+* thresh : La valeur de seuil
+* maxval : La valeur assignée aux pixels dépassant le seuil
+* type : Le type de seuillage (THRESH_BINARY ou THRESH_BINARY_INV)
 
 ### Isoler une région avec un masque
 
@@ -78,8 +78,8 @@ bitwise_and(src1, src2, mask)
 ```
 
 **Avec :**
-* $src1$, $src2$ : Les images sur lesquelles appliquer l'opération
-* $mask$ : Le masque binaire définissant la région d'intérêt
+* src1, src2 : Les images sur lesquelles appliquer l'opération
+* mask : Le masque binaire définissant la région d'intérêt
 
 ### Dilatation et érosion
 
@@ -89,10 +89,10 @@ dilate(src, dst, kernel, iterations)
 ```
 
 **Avec :**
-* $src$ : L'image binaire d'entrée
-* $dst$ : L'image dilatée de sortie
-* $kernel$ : La matrice structurante définissant la forme et la taille de la dilatation
-* $iterations$ : Le nombre de fois où l'opération est appliquée
+* src : L'image binaire d'entrée
+* dst : L'image dilatée de sortie
+* kernel : La matrice structurante définissant la forme et la taille de la dilatation
+* iterations : Le nombre de fois où l'opération est appliquée
 
 Pour réduire la dilatation excédentaire (érosion morphologique), on utilise :
 
@@ -100,10 +100,10 @@ Pour réduire la dilatation excédentaire (érosion morphologique), on utilise :
 erode(src, dst, kernel, iterations)
 ```
 **Avec :**
-* $src$ : L'image dilatée d'entrée
-* $dst$ : L'image érodée de sortie
-* $kernel$ : La matrice structurante définissant la forme et la taille de l'érosion
-* $iterations$ : Le nombre de fois où l'opération est appliquée
+* src : L'image dilatée d'entrée
+* dst : L'image érodée de sortie
+* kernel : La matrice structurante définissant la forme et la taille de l'érosion
+* iterations : Le nombre de fois où l'opération est appliquée
 
 ### Extraire les contours 
 
@@ -114,11 +114,11 @@ findContours(image, contours, hierarchy, mode, method)
 ```
 
 **Avec :**
-* $image$ : L'image binaire d'entrée
-* $contours$ : La liste des contours détectés (sortie)
-* $hierarchy$ : L'information de hiérarchie entre les contours (sortie)
-* $mode$ : Le mode de récupération des contours (RETR_EXTERNAL)
-* $method$ : La méthode d'approximation des contours (CHAIN_APPROX_SIMPLE)
+* image : L'image binaire d'entrée
+* contours : La liste des contours détectés (sortie)
+* hierarchy : L'information de hiérarchie entre les contours (sortie)
+* mode : Le mode de récupération des contours (RETR_EXTERNAL)
+* method : La méthode d'approximation des contours (CHAIN_APPROX_SIMPLE)
 
 ## Installation
 

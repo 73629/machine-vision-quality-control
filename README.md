@@ -26,8 +26,6 @@ des algorithmes de traitement d'image pour identifier automatiquement les anomal
 
 ## Fonctions principales OpenCV utilisées
 
-### Flouter l'image
-
 Pour mettre un flou gaussien sur l'image, on utilise :
 $$GaussianBlur(src, dst, ksize, sigmaX)$$
 
@@ -37,7 +35,72 @@ $$GaussianBlur(src, dst, ksize, sigmaX)$$
 * $ksize$ : La dimension de la matrice kernel qui floue l'image
 * $sigmaX$ : L'écart-type en x de la gaussienne
 
+Pour détecter les cercles dans l'image (transformée de Hough), on utilise :
+$$HoughCircles(image, method, dp, minDist, param1, param2, minRadius, maxRadius)$$
 
+**Avec :**
+* $image$ : L'image d'entrée en niveaux de gris
+* $method$ : La méthode de détection (HOUGH_GRADIENT)
+* $dp$ : Le ratio de résolution entre l'image et l'accumulateur de Hough
+* $minDist$ : La distance minimale entre les centres de cercles détectés
+* $param1$ : Le seuil supérieur pour la détection des contours (Canny)
+* $param2$ : Le seuil d'accumulation pour la détection des centres de cercles
+* $minRadius$, $maxRadius$ : Les rayons minimal et maximal des cercles à détecter
+
+---
+
+Pour binariser l'image selon un seuil (segmentation), on utilise :
+$$threshold(src, dst, thresh, maxval, type)$$
+
+**Avec :**
+* $src$ : L'image d'entrée en niveaux de gris
+* $dst$ : L'image binarisée de sortie
+* $thresh$ : La valeur de seuil
+* $maxval$ : La valeur assignée aux pixels dépassant le seuil
+* $type$ : Le type de seuillage (THRESH_BINARY ou THRESH_BINARY_INV)
+
+---
+
+Pour isoler une région d'intérêt à l'aide d'un masque, on utilise :
+$$bitwise_and(src1, src2, mask)$$
+
+**Avec :**
+* $src1$, $src2$ : Les images sur lesquelles appliquer l'opération
+* $mask$ : Le masque binaire définissant la région d'intérêt
+
+---
+
+Pour combler les discontinuités d'une forme détectée (dilatation morphologique), on utilise :
+$$dilate(src, dst, kernel, iterations)$$
+
+**Avec :**
+* $src$ : L'image binaire d'entrée
+* $dst$ : L'image dilatée de sortie
+* $kernel$ : La matrice structurante définissant la forme et la taille de la dilatation
+* $iterations$ : Le nombre de fois où l'opération est appliquée
+
+---
+
+Pour réduire la dilatation excédentaire (érosion morphologique), on utilise :
+$$erode(src, dst, kernel, iterations)$$
+
+**Avec :**
+* $src$ : L'image dilatée d'entrée
+* $dst$ : L'image érodée de sortie
+* $kernel$ : La matrice structurante définissant la forme et la taille de l'érosion
+* $iterations$ : Le nombre de fois où l'opération est appliquée
+
+---
+
+Pour extraire les contours des défauts détectés, on utilise :
+$$findContours(image, contours, hierarchy, mode, method)$$
+
+**Avec :**
+* $image$ : L'image binaire d'entrée
+* $contours$ : La liste des contours détectés (sortie)
+* $hierarchy$ : L'information de hiérarchie entre les contours (sortie)
+* $mode$ : Le mode de récupération des contours (RETR_EXTERNAL)
+* $method$ : La méthode d'approximation des contours (CHAIN_APPROX_SIMPLE)
 
 ## Installation
 

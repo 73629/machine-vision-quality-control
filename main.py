@@ -24,7 +24,7 @@ def analyze_part(img, label):
 
     return annotated, verdict
 
-print("=== Système de contrôle qualité par vision machine ===\n")
+print(" Système de contrôle qualité par vision machine \n")
 
 # On génère les pièces
 good = generate_good_part()

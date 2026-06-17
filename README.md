@@ -26,18 +26,15 @@ des algorithmes de traitement d'image pour identifier automatiquement les anomal
 
 ## Fonctions principales OpenCV utilisées
 
-### Mettre un flou sur l'image
-
 Pour mettre un flou gaussien sur l'image, on utilise :
 
 ```python
-GaussianBlur(src, dst, ksize, sigmaX)
+blurred_img = cv2.GaussianBlur(src, ksize, sigmaX)
 ```
 
 **Avec :**
-* src : L'image d'entré
-* dst : L'image de sortie
-* ksize : La dimension de la matrice kernel qui floue l'image
+* src : L'image d'entrée
+* ksize : La dimension de la matrice kernel qui floute l'image (ex: (5, 5))
 * sigmaX : L'écart-type en x de la gaussienne
 
 ### Détecter des cercles
@@ -45,14 +42,14 @@ GaussianBlur(src, dst, ksize, sigmaX)
 Pour détecter les cercles dans l'image (transformée de Hough), on utilise :
 
 ```python
-HoughCircles(image, method, dp, minDist, param1, param2, minRadius, maxRadius)
+circles = cv2.HoughCircles(image, method, dp, minDist, param1, param2, minRadius, maxRadius)
 ```
 
 **Avec :**
-* image : L'image d'entrée en niveaux de gris
-* method : La méthode de détection (HOUGH_GRADIENT)
+* image : L'image d'entrée en niveaux de gris (grayscale)
+* method : La méthode de détection (cv2.HOUGH_GRADIENT)
 * dp : Le ratio de résolution entre l'image et l'accumulateur de Hough
-* minDist : La distance minimale entre les centres de cercles détectés
+* minDist : Le nombre de pixels minimal entre les centres de cercles 
 * param1 : Le seuil supérieur pour la détection des contours (Canny)
 * param2 : Le seuil d'accumulation pour la détection des centres de cercles
 * minRadius, maxRadius : Les rayons minimal et maximal des cercles à détecter
@@ -62,19 +59,18 @@ HoughCircles(image, method, dp, minDist, param1, param2, minRadius, maxRadius)
 Pour binariser l'image selon un seuil (segmentation), on utilise :
 
 ```python
-threshold(src, dst, thresh, maxval, type)
+ret, thresh_img = cv2.threshold(src, thresh, maxval, type)
 ```
 **Avec :**
-* src : L'image d'entrée en niveaux de gris
-* dst : L'image binarisée de sortie
+* src : L'image d'entrée en niveaux de gris (grayscale)
 * thresh : La valeur de seuil
 * maxval : La valeur assignée aux pixels dépassant le seuil
-* type : Le type de seuillage (THRESH_BINARY ou THRESH_BINARY_INV)
+* type : Le type de seuillage (cv2.THRESH_BINARY ou cv2.THRESH_BINARY_INV)
 
 ### Isoler une région avec un masque
 
 ```python
-bitwise_and(src1, src2, mask)
+masked_img = cv2.bitwise_and(src1, src2, mask)
 ```
 
 **Avec :**
@@ -85,23 +81,21 @@ bitwise_and(src1, src2, mask)
 
 Pour combler les discontinuités d'une forme détectée (dilatation morphologique), on utilise :
 ```python
-dilate(src, dst, kernel, iterations)
+dilated_img = cv2.dilate(src, kernel, iterations)
 ```
 
 **Avec :**
 * src : L'image binaire d'entrée
-* dst : L'image dilatée de sortie
 * kernel : La matrice structurante définissant la forme et la taille de la dilatation
 * iterations : Le nombre de fois où l'opération est appliquée
 
 Pour réduire la dilatation excédentaire (érosion morphologique), on utilise :
 
 ```python
-erode(src, dst, kernel, iterations)
+eroded_img = cv2.erode(src, kernel, iterations)
 ```
 **Avec :**
 * src : L'image dilatée d'entrée
-* dst : L'image érodée de sortie
 * kernel : La matrice structurante définissant la forme et la taille de l'érosion
 * iterations : Le nombre de fois où l'opération est appliquée
 
@@ -110,15 +104,13 @@ erode(src, dst, kernel, iterations)
 Pour extraire les contours des défauts détectés, on utilise :
 
 ```python
-findContours(image, contours, hierarchy, mode, method)
+contours, hierarchy = cv2.findContours(image, mode, method)
 ```
 
 **Avec :**
 * image : L'image binaire d'entrée
-* contours : La liste des contours détectés (sortie)
-* hierarchy : L'information de hiérarchie entre les contours (sortie)
-* mode : Le mode de récupération des contours (RETR_EXTERNAL)
-* method : La méthode d'approximation des contours (CHAIN_APPROX_SIMPLE)
+* mode : Le mode de récupération des contours (cv2.RETR_EXTERNAL)
+* method : La méthode d'approximation des contours (cv2.CHAIN_APPROX_SIMPLE)
 
 ## Installation
 

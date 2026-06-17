@@ -65,8 +65,9 @@ $$threshold(src, dst, thresh, maxval, type)$$
 
 ### Isoler une région avec un masque
 
-Pour isoler une région d'intérêt à l'aide d'un masque, on utilise :
-$$bitwise\_and(src1, src2, mask)$$
+```python
+bitwise_and(src1, src2, mask)
+```
 
 **Avec :**
 * $src1$, $src2$ : Les images sur lesquelles appliquer l'opération

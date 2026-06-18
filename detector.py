@@ -82,7 +82,7 @@ def detect_defects(img):
     # On calcule la valeur grise moyenne du CD
     mean_val = cv2.mean(piece_region, mask=mask)[0]
 
-    # On détecte les zones qui sont 75% plus sombre que la valeur grise moyenne, ce sont les défauts sombres.
+    # On détecte les zones qui sont 25% plus sombre que la valeur grise moyenne, ce sont les défauts sombres.
     # Puis on les met en blanc sur un fond noir
     _, thresh_dark = cv2.threshold(
         piece_region, mean_val * 0.75, 255, cv2.THRESH_BINARY_INV

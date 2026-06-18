@@ -50,8 +50,8 @@ circles = cv2.HoughCircles(image, method, dp, minDist, param1, param2, minRadius
 * method : La méthode de détection (cv2.HOUGH_GRADIENT)
 * dp : Le ratio de résolution entre l'image et l'accumulateur de Hough
 * minDist : Le nombre de pixels minimal entre les centres de cercles 
-* param1 : Le seuil supérieur pour la détection des contours (Canny)
-* param2 : Le seuil d'accumulation pour la détection des centres de cercles
+* param1 : Le niveau de contraste pour qu'un pixel soit considéré comme un bord
+* param2 : Le nombre minimal de pixel qui doivent être d'accord sur le même centre pour que l'algorithme le considère comme un cercle
 * minRadius, maxRadius : Les rayons minimal et maximal des cercles à détecter
 
 ### Binariser l'image
